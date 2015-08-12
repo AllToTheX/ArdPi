@@ -14,6 +14,9 @@
 // SPI class
 // Transfers data to Raspberry SPI bus
 class SPI {
+	int file;
+	int speed;
+	int bits;
 	
 public:
 	// calls used

@@ -11,7 +11,20 @@
 
 #include <stdio.h>
 
+// Macros
 #define F(c) c
+
+
+typedef enum ePinMode = {
+	INPUT, OUTPUT
+} ePinMode;
+
+typedef enum ePinLevel = {
+	HIGH, LOW
+}ePinLevel;
+
+void pinMode(int, ePinMode);
+void digitalWrite(int, ePinLevel);
 
 // Serial class
 // Prints serial data to command prompt instead of serial port.
