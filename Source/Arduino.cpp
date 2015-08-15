@@ -8,7 +8,7 @@
 //
 //  Created by Allex Veldman on 12/08/15.
 //
-//
+
 
 
 #include <iostream>
@@ -16,6 +16,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include "Arduino.h"
+
 
 static int GPIOExport(int pin)
 {
@@ -78,6 +79,7 @@ static int GPIODirection(int pin, int dir)
 	return(0);
 }
 
+
 void pinMode(int pin, ePinMode direction)
 {
 	if (GPIOExport(pin) == -1 ) {
@@ -90,6 +92,7 @@ void pinMode(int pin, ePinMode direction)
 		abort();
 	}
 }
+
 
 void digitalWrite(int pin, ePinLevel level)
 {
@@ -113,6 +116,29 @@ void digitalWrite(int pin, ePinLevel level)
 	close(fd);
 }
 
+char digitalRead(int pin)
+{
+	char path[VALUE_MAX];
+	char value_str[3];
+	int fd;
+ 
+	snprintf(path, VALUE_MAX, "/sys/class/gpio/gpio%d/value", pin);
+	fd = open(path, O_RDONLY);
+	if (fd == -1) {
+		printf("Failed to open gpio value for reading!\n");
+		abort();
+	}
+ 
+	if (read(fd, value_str, 3) == -1) {
+		printf("Failed to read value!\n");
+		abort();
+	}
+ 
+	close(fd);
+ 
+	return(atoi(value_str));
+}
+
 void delay(word ms)
 {
 	usleep(ms * 1000);
@@ -124,7 +150,45 @@ void Serial::print(char *c)
 	std::cout << c;
 }
 
+void Serial::print(byte c)
+{
+	printf("%i",c);
+}
+
+void Serial::print(char c, eType type)
+{
+	switch (type) {
+		case HEX:
+			printf("%X2",c);
+			break;
+		case DEC:
+			printf("%i",c);
+			break;
+		case OCT:
+			printf("%o",c);
+			break;
+  default:
+			break;
+	}
+	std::cout << c;
+}
+
 void Serial::println(char *c)
+{
+	std::cout << c << std::endl;
+}
+
+void Serial::println(void)
+{
+	std::cout << std::endl;
+}
+
+void Serial::println(byte c)
+{
+	printf("%i",c);
+}
+
+void Serial::println(__FlashStringHelper *c)
 {
 	std::cout << c << std::endl;
 }

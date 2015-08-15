@@ -9,6 +9,8 @@
 #ifndef ____Arduino__
 #define ____Arduino__
 
+#define PROGMEM
+
 #include <stdio.h>
 
 // Macros
@@ -17,7 +19,7 @@
 // Redefines
 typedef unsigned char byte;
 typedef unsigned int word;
-
+typedef const char __FlashStringHelper;
 
 typedef enum ePinMode {
 	INPUT, OUTPUT
@@ -30,8 +32,13 @@ typedef enum ePinLevel {
 	HIGH, LOW
 }ePinLevel;
 
+typedef enum eType {
+	HEX, DEC, OCT
+}eType;
+
 void pinMode(int, ePinMode);
 void digitalWrite(int, ePinLevel);
+char digitalRead(int);
 void delay(word ms);
 
 // Serial class
@@ -41,7 +48,12 @@ class Serial {
 public:
 	// calls used
 	void print(char *);
+	void print(char , eType);
+	void print(byte);
 	void println(char *);
+	void println(void);
+	void println(byte);
+	void println(__FlashStringHelper *c);
 	
 	// calls not implemented
 	void available(void);
@@ -64,5 +76,6 @@ public:
 private:
 };
 
+Serial Serial;
 
 #endif /* defined(____Arduino__) */
