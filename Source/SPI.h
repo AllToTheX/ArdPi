@@ -14,16 +14,20 @@
 // SPI class
 // Transfers data to Raspberry SPI bus
 class SPI {
+	int file;
+	int speed;
+	int bits;
 	
 public:
 	// calls used
+	void begin(void);
 	void setBitOrder(char);
 	void setDataMode(char);
 	unsigned char transfer(unsigned char);
+	void end(void);
 	
 	// calls not implemented yet
-	void begin(void);
-	void end(void);
+	
 	void beginTransfer(void);
 	void endTransfer(void);
 	void setClockDivider(void);

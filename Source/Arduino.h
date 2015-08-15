@@ -11,7 +11,28 @@
 
 #include <stdio.h>
 
+// Macros
 #define F(c) c
+
+// Redefines
+typedef unsigned char byte;
+typedef unsigned int word;
+
+
+typedef enum ePinMode {
+	INPUT, OUTPUT
+}ePinMode;
+
+#define IN INPUT
+#define OUT OUTPUT
+
+typedef enum ePinLevel {
+	HIGH, LOW
+}ePinLevel;
+
+void pinMode(int, ePinMode);
+void digitalWrite(int, ePinLevel);
+void delay(word ms);
 
 // Serial class
 // Prints serial data to command prompt instead of serial port.
@@ -40,6 +61,8 @@ public:
 	void setTimeout(void);
 	void write(void);
 	void serialEvent(void);
+private:
 };
+
 
 #endif /* defined(____Arduino__) */
