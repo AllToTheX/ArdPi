@@ -10,8 +10,12 @@
 //
 //
 
+
+#include <iostream>
+#include <fcntl.h>
+#include <unistd.h>
+#include <stdlib.h>
 #include "Arduino.h"
-#include <stream>
 
 static int GPIOExport(int pin)
 {
@@ -90,7 +94,7 @@ void pinMode(int pin, ePinMode direction)
 void digitalWrite(int pin, ePinLevel level)
 {
 	static const char s_values_str[] = "01";
- 
+ #define VALUE_MAX 30
 	char path[VALUE_MAX];
 	int fd;
  
@@ -101,22 +105,21 @@ void digitalWrite(int pin, ePinLevel level)
 		abort();
 	}
  
-	if (write(fd, &s_values_str[LOW == value ? 0 : 1], 1) != 1) {
+	if (write(fd, &s_values_str[LOW == level ? 0 : 1], 1) != 1) {
 		printf("Failed to write value!\n");
 		abort();
 	}
  
 	close(fd);
-	return(0);
 }
 
 // Serial class functions
 void Serial::print(char *c)
 {
-	cout << c;
+	std::cout << c;
 }
 
 void Serial::println(char *c)
 {
-	cout << c << endl;
+	std::cout << c << std::endl;
 }

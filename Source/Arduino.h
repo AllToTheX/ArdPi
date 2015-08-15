@@ -15,11 +15,14 @@
 #define F(c) c
 
 
-typedef enum ePinMode = {
+typedef enum ePinMode {
 	INPUT, OUTPUT
-} ePinMode;
+}ePinMode;
 
-typedef enum ePinLevel = {
+#define IN INPUT
+#define OUT OUTPUT
+
+typedef enum ePinLevel {
 	HIGH, LOW
 }ePinLevel;
 
