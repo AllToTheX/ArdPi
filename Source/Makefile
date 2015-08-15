@@ -1,4 +1,4 @@
-OBJECTS = Arduino.o
+OBJECTS = Arduino.o SPI.o
 
 EXEC = main
 

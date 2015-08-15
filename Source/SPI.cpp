@@ -32,45 +32,45 @@ void SPI::begin(void)
 	speed = 500000;
 	
 	file = open(device, O_RDWR);
-	if (file < 0) {
+	if (file <= 0) {
 		printf("can't open device\n");
 		abort();
 	}
 	
 	// Set SPI mode
-	ret = ioctl(file, SPI_IOC_WR_MODE, mode);
+	ret = ioctl(file, SPI_IOC_WR_MODE, &mode);
 	if (ret == -1) {
 		printf("can't set spi mode\n");
 		abort();
 	}
 	
-	ret = ioctl(file, SPI_IOC_RD_MODE, mode);
+	ret = ioctl(file, SPI_IOC_RD_MODE, &mode);
 	if (ret == -1) {
 		printf("can't get spi mode\n");
 		abort();
 	}
 	
 	// Set bits per word
-	ret = ioctl(file, SPI_IOC_WR_BITS_PER_WORD, bits);
+	ret = ioctl(file, SPI_IOC_WR_BITS_PER_WORD, &bits);
 	if (ret == -1) {
 		printf("can't set bits per word\n");
 		abort();
 	}
 	
-	ret = ioctl(file, SPI_IOC_RD_BITS_PER_WORD, bits);
+	ret = ioctl(file, SPI_IOC_RD_BITS_PER_WORD, &bits);
 	if (ret == -1) {
 		printf("can't get bits per word\n");
 		abort();
 	}
 	
 	// Set max speed
-	ret = ioctl(file, SPI_IOC_WR_MAX_SPEED_HZ, speed);
+	ret = ioctl(file, SPI_IOC_WR_MAX_SPEED_HZ, &speed);
 	if (ret == -1) {
 		printf("can't set max speed hz\n");
 		abort();
 	}
 	
-	ret = ioctl(file, SPI_IOC_RD_MAX_SPEED_HZ, speed);
+	ret = ioctl(file, SPI_IOC_RD_MAX_SPEED_HZ, &speed);
 	if (ret == -1) {
 		printf("can't get max speed hz\n");
 		abort();
@@ -100,13 +100,12 @@ unsigned char SPI::transfer(unsigned char data)
 	
 	struct spi_ioc_transfer tr =
 	{
-		
-		.tx_buf = (unsigned long)&data,
-		.rx_buf = (unsigned long)&rx,
-		.len = 1,
-		.delay_usecs = 0,
-		.speed_hz = speed,
-		.bits_per_word = bits,
+		tr.tx_buf = (unsigned long)&data,
+		tr.rx_buf = (unsigned long)&rx,
+		tr.len = 1,
+		tr.delay_usecs = 0,
+		tr.speed_hz = speed,
+		tr.bits_per_word = bits,
 	};
 	ret = ioctl(file, SPI_IOC_MESSAGE(1), &tr);
 	if (ret < 1) {
@@ -115,5 +114,10 @@ unsigned char SPI::transfer(unsigned char data)
 	}
 	
 	return rx;
+}
+
+void SPI::end(void)
+{
+	close(file);
 }
 

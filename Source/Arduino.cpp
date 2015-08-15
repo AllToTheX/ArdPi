@@ -113,6 +113,11 @@ void digitalWrite(int pin, ePinLevel level)
 	close(fd);
 }
 
+void delay(word ms)
+{
+	usleep(ms * 1000);
+}
+
 // Serial class functions
 void Serial::print(char *c)
 {
