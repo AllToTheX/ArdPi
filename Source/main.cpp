@@ -12,25 +12,23 @@
 #include "SPI.h"
 #include "MFRC522.h"
 
-#define RST_PIN         9           // Configurable, see typical pin layout above
-#define SS_PIN          10          // Configurable, see typical pin layout above
+#define RST_PIN         25           // Configurable, see typical pin layout above
+#define SS_PIN          8          // Configurable, see typical pin layout above
 
 
-//Serial Serial;
-//SPI SPI;
 
 MFRC522 mfrc522(SS_PIN, RST_PIN);   // Create MFRC522 instance.
 
 MFRC522::MIFARE_Key key;
 
-/**
- * Helper routine to dump a byte array as hex values to Serial.
- */
-void dump_byte_array(byte *buffer, byte bufferSize) {
+
+// Helper routine to dump a byte array as hex values to Serial.
+ void dump_byte_array(byte *buffer, byte bufferSize) {
 	for (byte i = 0; i < bufferSize; i++) {
 		Serial.print(buffer[i], HEX);
 	}
 }
+
 
 void setup(void)
 {
@@ -51,9 +49,7 @@ void setup(void)
 	Serial.println(F("BEWARE: Data will be written to the PICC, in sector #1"));
 }
 
-/**
- * Main loop.
- */
+
 void loop() {
 	// Look for new cards
 	if ( ! mfrc522.PICC_IsNewCardPresent())
@@ -180,11 +176,16 @@ void loop() {
 	mfrc522.PCD_StopCrypto1();
 }
 
+hardwareSerial Serial;
+hardwareSPI SPI;
+
 int main(int argc, char *argv[])
 {
 	setup();
 	while (1) {
 		loop();
+//		Serial.println("hello");
+//		delay(1000);
 	}
 	
 	

@@ -24,7 +24,7 @@ static const char *device = "/dev/spidev0.0";
 
 // Initialize SPI interface
 // SPI Mode 3, 8bits
-void SPI::begin(void)
+void hardwareSPI::begin(void)
 {
 	int ret;
 	int mode = SPI_MODE_3;
@@ -82,17 +82,17 @@ void SPI::begin(void)
 	closelog();
 }
 
-void SPI::setBitOrder(char order)
+void hardwareSPI::setBitOrder(char order)
 {
 	
 }
 
-void SPI::setDataMode(char mode)
+void hardwareSPI::setDataMode(char mode)
 {
 	
 }
 
-unsigned char SPI::transfer(unsigned char data)
+unsigned char hardwareSPI::transfer(unsigned char data)
 {
 	int ret;
 	
@@ -116,7 +116,7 @@ unsigned char SPI::transfer(unsigned char data)
 	return rx;
 }
 
-void SPI::end(void)
+void hardwareSPI::end(void)
 {
 	close(file);
 }

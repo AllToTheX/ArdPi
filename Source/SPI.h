@@ -16,7 +16,7 @@
 
 // SPI class
 // Transfers data to Raspberry SPI bus
-class SPI {
+class hardwareSPI {
 	int file;
 	int speed;
 	int bits;
@@ -35,7 +35,6 @@ public:
 	void endTransfer(void);
 	void setClockDivider(void);
 	void usingInterrupt(void);	
-};
+}extern SPI;
 
-SPI SPI;
 #endif /* defined(____SPI__) */

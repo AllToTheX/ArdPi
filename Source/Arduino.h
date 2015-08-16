@@ -12,12 +12,15 @@
 #define PROGMEM
 
 #include <stdio.h>
+#include <string.h>
 
 // Macros
-#define F(c) c
+//#define F(c) c
+
 
 // Redefines
 typedef unsigned char byte;
+typedef signed char int8_t;
 typedef unsigned int word;
 typedef const char __FlashStringHelper;
 
@@ -29,7 +32,7 @@ typedef enum ePinMode {
 #define OUT OUTPUT
 
 typedef enum ePinLevel {
-	HIGH, LOW
+	LOW, HIGH
 }ePinLevel;
 
 typedef enum eType {
@@ -41,13 +44,18 @@ void digitalWrite(int, ePinLevel);
 char digitalRead(int);
 void delay(word ms);
 
+// Program memory macro overwrites
+byte pgm_read_byte(const byte *);
+const char * F(const char *c);
+
 // Serial class
 // Prints serial data to command prompt instead of serial port.
-class Serial {
-	
+class hardwareSerial {
 public:
+
 	// calls used
-	void print(char *);
+	void print(byte *);
+	void print(const char *);
 	void print(char , eType);
 	void print(byte);
 	void println(char *);
@@ -73,9 +81,6 @@ public:
 	void setTimeout(void);
 	void write(void);
 	void serialEvent(void);
-private:
-};
-
-Serial Serial;
+}extern Serial;
 
 #endif /* defined(____Arduino__) */

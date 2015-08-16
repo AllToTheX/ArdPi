@@ -4,7 +4,10 @@
 // Wrapper for arduino calls so arduino libraries can be used
 // on Raspberry Pi.
 //
-// Only digital pins and SPI is supported for now
+// Only digital pin I/O and SPI is supported for now
+//
+// Any data originaly stored in program memory will be stored in
+// data memory except for 'const'
 //
 //  Created by Allex Veldman on 12/08/15.
 //
@@ -116,6 +119,7 @@ void digitalWrite(int pin, ePinLevel level)
 	close(fd);
 }
 
+
 char digitalRead(int pin)
 {
 	char path[VALUE_MAX];
@@ -145,17 +149,22 @@ void delay(word ms)
 }
 
 // Serial class functions
-void Serial::print(char *c)
+void hardwareSerial::print(byte *c)
 {
 	std::cout << c;
 }
 
-void Serial::print(byte c)
+void hardwareSerial::print(const char *c)
+{
+	std::cout << c;
+}
+
+void hardwareSerial::print(byte c)
 {
 	printf("%i",c);
 }
 
-void Serial::print(char c, eType type)
+void hardwareSerial::print(char c, eType type)
 {
 	switch (type) {
 		case HEX:
@@ -168,27 +177,47 @@ void Serial::print(char c, eType type)
 			printf("%o",c);
 			break;
   default:
+			printf("%i",c);
 			break;
 	}
-	std::cout << c;
 }
 
-void Serial::println(char *c)
+// print array
+void hardwareSerial::println(char *c)
 {
 	std::cout << c << std::endl;
 }
 
-void Serial::println(void)
+// print newline
+void hardwareSerial::println(void)
 {
 	std::cout << std::endl;
 }
 
-void Serial::println(byte c)
+// print byte
+void hardwareSerial::println(byte c)
 {
 	printf("%i",c);
 }
 
-void Serial::println(__FlashStringHelper *c)
+// Overwrite of function that prints strings stored in program memory
+void hardwareSerial::println(__FlashStringHelper *c)
 {
 	std::cout << c << std::endl;
+}
+
+// Overwrite of AVR program memory macro, returns the value at address c
+byte pgm_read_byte(const byte *c)
+{
+	return *c;
+}
+
+//byte * F(const char *c)
+//{
+//	return (byte *)c;
+//}
+
+const char * F(const char *c)
+{
+	return (const char *)c;
 }

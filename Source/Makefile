@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -Wall -c
+CXXFLAGS = -Wall -c -g
 
 all: main
 
@@ -19,4 +19,4 @@ MFRC522.o: MFRC522.cpp
 	$(CXX) $(CXXFLAGS) MFRC522.cpp
 
 clean:
-	rm *.o main
+	rm *.o
