@@ -4,10 +4,15 @@
 // Wrapper for arduino calls so arduino libraries can be used
 // on Raspberry Pi.
 //
-// Only digital pin I/O and SPI is supported for now
+// Only digital pin I/O and Serial is supported for now.
+//
+// Serial class directs all Serial data to the terminal, Rpi UART is not supported.
 //
 // Any data originaly stored in program memory will be stored in
-// data memory except for 'const'
+// data memory except for 'const'.
+//
+// You might need to replace <Arduino.h> in your libraries with "Arduino.h"
+// or add them to your local include path.
 //
 //  Created by Allex Veldman on 12/08/15.
 //
@@ -20,7 +25,7 @@
 #include <stdlib.h>
 #include "Arduino.h"
 
-
+// Exports the GPIO pin file used to write to the pins
 static int GPIOExport(int pin)
 {
 #define BUFFER_MAX 3
@@ -40,6 +45,7 @@ static int GPIOExport(int pin)
 	return(0);
 }
 
+// Unexports the GPIO file
 static int GPIOUnexport(int pin)
 {
 	char buffer[BUFFER_MAX];
@@ -58,6 +64,7 @@ static int GPIOUnexport(int pin)
 	return(0);
 }
 
+// Sets the pin direction
 static int GPIODirection(int pin, int dir)
 {
 	static const char s_directions_str[]  = "in\0out";
@@ -82,7 +89,7 @@ static int GPIODirection(int pin, int dir)
 	return(0);
 }
 
-
+// Overwrite, sets the pin direction
 void pinMode(int pin, ePinMode direction)
 {
 	if (GPIOExport(pin) == -1 ) {
@@ -96,7 +103,7 @@ void pinMode(int pin, ePinMode direction)
 	}
 }
 
-
+// Overwrite, writes a value to the pin
 void digitalWrite(int pin, ePinLevel level)
 {
 	static const char s_values_str[] = "01";
@@ -119,7 +126,7 @@ void digitalWrite(int pin, ePinLevel level)
 	close(fd);
 }
 
-
+// Overwrite, reads the pin value
 char digitalRead(int pin)
 {
 	char path[VALUE_MAX];
@@ -143,27 +150,33 @@ char digitalRead(int pin)
 	return(atoi(value_str));
 }
 
+// Overwrite, delays in ms
 void delay(word ms)
 {
 	usleep(ms * 1000);
 }
 
-// Serial class functions
+// Serial class functions, writes to the terminal
+
+// Overwrite, prints a byte array
 void hardwareSerial::print(byte *c)
 {
 	std::cout << c;
 }
 
+// Overwrite, prints const arrays
 void hardwareSerial::print(const char *c)
 {
 	std::cout << c;
 }
 
+// Overwrite, prints a single byte as an integer
 void hardwareSerial::print(byte c)
 {
 	printf("%i",c);
 }
 
+// Overwrite, prints a single byte as the specified type
 void hardwareSerial::print(char c, eType type)
 {
 	switch (type) {
@@ -182,22 +195,22 @@ void hardwareSerial::print(char c, eType type)
 	}
 }
 
-// print array
+// Overwrite, print array + newline
 void hardwareSerial::println(char *c)
 {
 	std::cout << c << std::endl;
 }
 
-// print newline
+// Overwrite, print newline
 void hardwareSerial::println(void)
 {
 	std::cout << std::endl;
 }
 
-// print byte
+// Overwrite, print single byte as integer + newline
 void hardwareSerial::println(byte c)
 {
-	printf("%i",c);
+	printf("%i\n",c);
 }
 
 // Overwrite of function that prints strings stored in program memory
@@ -212,11 +225,7 @@ byte pgm_read_byte(const byte *c)
 	return *c;
 }
 
-//byte * F(const char *c)
-//{
-//	return (byte *)c;
-//}
-
+// Overwrite of function thats reads arrays from program memory.
 const char * F(const char *c)
 {
 	return (const char *)c;

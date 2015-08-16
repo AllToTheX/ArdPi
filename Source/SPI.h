@@ -11,8 +11,8 @@
 
 #include <stdio.h>
 
-#define MSBFIRST 0 // does nothing yet
-#define SPI_MODE0 0 // does nothing yet
+#define MSBFIRST	0 // does nothing yet
+#define SPI_MODE0	0 // does nothing yet
 
 // SPI class
 // Transfers data to Raspberry SPI bus
