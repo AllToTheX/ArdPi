@@ -182,6 +182,12 @@ void hardwareSerial::print(byte c)
 	printf("%i",c);
 }
 
+// Overwrite, prints an int as an integer
+void hardwareSerial::print(int c)
+{
+	printf("%i",c);
+}
+
 // Overwrite, prints a single byte as the specified type
 void hardwareSerial::print(char c, eType type)
 {
@@ -215,6 +221,12 @@ void hardwareSerial::println(void)
 
 // Overwrite, print single byte as integer + newline
 void hardwareSerial::println(byte c)
+{
+	printf("%i\n",c);
+}
+
+// Overwrite, print int as integer + newline
+void hardwareSerial::println(int c)
 {
 	printf("%i\n",c);
 }

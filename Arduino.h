@@ -55,9 +55,11 @@ public:
 	void print(byte *);
 	void print(const char *);
 	void print(char , eType);
+	void print(int);
 	void print(byte);
 	void println(char *);
 	void println(void);
+	void println(int);
 	void println(byte);
 	void println(__FlashStringHelper *c);
 	void begin(int);
