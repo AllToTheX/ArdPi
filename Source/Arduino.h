@@ -9,20 +9,16 @@
 #ifndef ____Arduino__
 #define ____Arduino__
 
-#define PROGMEM
-
 #include <stdio.h>
 #include <string.h>
 
-// Macros
-//#define F(c) c
-
+#define PROGMEM			// Disable the PROGMEM macro, everything is stored in data memory
 
 // Redefines
-typedef unsigned char byte;
-typedef signed char int8_t;
-typedef unsigned int word;
-typedef const char __FlashStringHelper;
+typedef unsigned	char	byte;
+typedef signed		char	int8_t;
+typedef unsigned	int		word;
+typedef const		char	__FlashStringHelper;
 
 typedef enum ePinMode {
 	INPUT, OUTPUT

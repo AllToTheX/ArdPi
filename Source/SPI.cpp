@@ -1,6 +1,8 @@
 //
 //  SPI.cpp
 //  
+//	Overwrites the SPI class, bus is fixed to spidev0.0
+//	To enable SPI on Rasbian: run `sudo raspi-config` and enable SPI in the advanced menu.
 //
 //  Created by Allex Veldman on 12/08/15.
 //
@@ -82,16 +84,21 @@ void hardwareSPI::begin(void)
 	closelog();
 }
 
+// MARK: not implemented yet
+// Changes bit order
 void hardwareSPI::setBitOrder(char order)
 {
 	
 }
 
+// MARK: not implemented yet
+// Changes data mode
 void hardwareSPI::setDataMode(char mode)
 {
 	
 }
 
+// Transfers one byte over SPI bus
 unsigned char hardwareSPI::transfer(unsigned char data)
 {
 	int ret;
@@ -116,6 +123,7 @@ unsigned char hardwareSPI::transfer(unsigned char data)
 	return rx;
 }
 
+// Closes spi file handle
 void hardwareSPI::end(void)
 {
 	close(file);
