@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
 
 #define PROGMEM			// Disable the PROGMEM macro, everything is stored in data memory
 
@@ -19,6 +20,7 @@ typedef unsigned	char	byte;
 typedef signed		char	int8_t;
 typedef unsigned	int		word;
 typedef const		char	__FlashStringHelper;
+typedef bool				boolean;
 
 typedef enum ePinMode {
 	INPUT, OUTPUT
@@ -58,10 +60,11 @@ public:
 	void println(void);
 	void println(byte);
 	void println(__FlashStringHelper *c);
+	void begin(int);
 	
 	// calls not implemented
 	void available(void);
-	void begin(void);
+	
 	void end(void);
 	void find(void);
 	void findUntil(void);
@@ -77,6 +80,11 @@ public:
 	void setTimeout(void);
 	void write(void);
 	void serialEvent(void);
+	
+	// Bypasses 'while(!Serial)' segments as we don't need to init the serial port
+	bool operator!(){
+		return false;
+	}
 }extern Serial;
 
 #endif /* defined(____Arduino__) */

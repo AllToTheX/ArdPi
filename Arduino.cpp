@@ -158,6 +158,12 @@ void delay(word ms)
 
 // Serial class functions, writes to the terminal
 
+// Overwrite, serial needs no setup so do nothing
+void hardwareSerial::begin(int x)
+{
+	
+}
+
 // Overwrite, prints a byte array
 void hardwareSerial::print(byte *c)
 {
@@ -181,7 +187,7 @@ void hardwareSerial::print(char c, eType type)
 {
 	switch (type) {
 		case HEX:
-			printf("%X2",c);
+			printf("%.2X",c);
 			break;
 		case DEC:
 			printf("%i",c);

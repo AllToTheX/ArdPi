@@ -4,11 +4,11 @@ CC = g++
 CFLAGS = -Wall -g
 
 
-WRAPPER_PATH = ../..
-VPATH = $(SRC_PATH)
+WRAPPER_PATH = ../../..
+INC_PATHS = -I$(WRAPPER_PATH) -I../
 
 # Example files
-FILES = main.cpp  MFRC522.cpp
+FILES = main.cpp  ../MFRC522.cpp
 
 # Wrapper files
 WRAPPER_FILES = Arduino.cpp SPI.cpp
@@ -17,4 +17,4 @@ WRAPPER_FILES = Arduino.cpp SPI.cpp
 SOURCES = $(FILES) $(WRAPPER_FILES:%.cpp=$(WRAPPER_PATH)/%.cpp)
 
 all:
-	$(CC) $(CFLAGS) -I$(SRC_PATH) $(SOURCES) -o main
+	$(CC) $(CFLAGS) $(INC_PATHS) $(SOURCES) -o main
