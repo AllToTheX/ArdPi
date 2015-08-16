@@ -4,11 +4,14 @@
 // Wrapper for arduino calls so arduino libraries can be used
 // on Raspberry Pi.
 //
-// Only digital pins and SPI is supported for now
+// Only digital pin I/O and SPI is supported for now
+//
+// Any data originaly stored in program memory will be stored in
+// data memory except for 'const'
 //
 //  Created by Allex Veldman on 12/08/15.
 //
-//
+
 
 
 #include <iostream>
@@ -16,6 +19,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include "Arduino.h"
+
 
 static int GPIOExport(int pin)
 {
@@ -78,6 +82,7 @@ static int GPIODirection(int pin, int dir)
 	return(0);
 }
 
+
 void pinMode(int pin, ePinMode direction)
 {
 	if (GPIOExport(pin) == -1 ) {
@@ -90,6 +95,7 @@ void pinMode(int pin, ePinMode direction)
 		abort();
 	}
 }
+
 
 void digitalWrite(int pin, ePinLevel level)
 {
@@ -113,18 +119,105 @@ void digitalWrite(int pin, ePinLevel level)
 	close(fd);
 }
 
+
+char digitalRead(int pin)
+{
+	char path[VALUE_MAX];
+	char value_str[3];
+	int fd;
+ 
+	snprintf(path, VALUE_MAX, "/sys/class/gpio/gpio%d/value", pin);
+	fd = open(path, O_RDONLY);
+	if (fd == -1) {
+		printf("Failed to open gpio value for reading!\n");
+		abort();
+	}
+ 
+	if (read(fd, value_str, 3) == -1) {
+		printf("Failed to read value!\n");
+		abort();
+	}
+ 
+	close(fd);
+ 
+	return(atoi(value_str));
+}
+
 void delay(word ms)
 {
 	usleep(ms * 1000);
 }
 
 // Serial class functions
-void Serial::print(char *c)
+void hardwareSerial::print(byte *c)
 {
 	std::cout << c;
 }
 
-void Serial::println(char *c)
+void hardwareSerial::print(const char *c)
+{
+	std::cout << c;
+}
+
+void hardwareSerial::print(byte c)
+{
+	printf("%i",c);
+}
+
+void hardwareSerial::print(char c, eType type)
+{
+	switch (type) {
+		case HEX:
+			printf("%X2",c);
+			break;
+		case DEC:
+			printf("%i",c);
+			break;
+		case OCT:
+			printf("%o",c);
+			break;
+  default:
+			printf("%i",c);
+			break;
+	}
+}
+
+// print array
+void hardwareSerial::println(char *c)
 {
 	std::cout << c << std::endl;
+}
+
+// print newline
+void hardwareSerial::println(void)
+{
+	std::cout << std::endl;
+}
+
+// print byte
+void hardwareSerial::println(byte c)
+{
+	printf("%i",c);
+}
+
+// Overwrite of function that prints strings stored in program memory
+void hardwareSerial::println(__FlashStringHelper *c)
+{
+	std::cout << c << std::endl;
+}
+
+// Overwrite of AVR program memory macro, returns the value at address c
+byte pgm_read_byte(const byte *c)
+{
+	return *c;
+}
+
+//byte * F(const char *c)
+//{
+//	return (byte *)c;
+//}
+
+const char * F(const char *c)
+{
+	return (const char *)c;
 }

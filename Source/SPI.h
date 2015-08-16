@@ -11,9 +11,12 @@
 
 #include <stdio.h>
 
+#define MSBFIRST 0 // does nothing yet
+#define SPI_MODE0 0 // does nothing yet
+
 // SPI class
 // Transfers data to Raspberry SPI bus
-class SPI {
+class hardwareSPI {
 	int file;
 	int speed;
 	int bits;
@@ -32,5 +35,6 @@ public:
 	void endTransfer(void);
 	void setClockDivider(void);
 	void usingInterrupt(void);	
-};
+}extern SPI;
+
 #endif /* defined(____SPI__) */
