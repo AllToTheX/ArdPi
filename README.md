@@ -23,3 +23,6 @@ Pinout:
 Examples:
 - CS	GPIO8
 - RESET	GPIO25
+=======
+Remember to run your program using sudo, the GPIO and SPI need root access.
+>>>>>>> master
