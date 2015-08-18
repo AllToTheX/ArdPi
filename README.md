@@ -14,4 +14,4 @@ To use, create a Serial and SPI instance:
 
 You're good to go.
 
-Remember to run your program susing sudo, the GPIO and SPI need root access.
+Remember to run your program using sudo, the GPIO and SPI need root access.
