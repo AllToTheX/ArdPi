@@ -37,9 +37,9 @@ typedef enum eType {
 	HEX, DEC, OCT
 }eType;
 
-void pinMode(int, ePinMode);
-void digitalWrite(int, ePinLevel);
-char digitalRead(int);
+void pinMode(int, ePinMode)__attribute__((weak));
+void digitalWrite(int, ePinLevel)__attribute__((weak));
+char digitalRead(int)__attribute__((weak));
 void delay(word ms);
 
 // Program memory macro overwrites

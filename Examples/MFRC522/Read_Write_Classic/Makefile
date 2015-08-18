@@ -1,41 +1,38 @@
-# MFRC522 makefile
+# Read/Write classic makefile
 
+# Build tool
 CC = g++
-CFLAGS = -Wall -g
 
-BUILD_DIR = ./build
+# Include directories
+INC_DIRS = ../../.. ..
 
-# Arduino Wrapper directory
-WRAP_DIR = ../../..
+# Include flags for .cpp files
+INC = $(INC_DIRS:%=-I%)
 
-# MFRC522 files directory
-RC_DIR = ..
-INC_DIRS = $(WRAP_DIR) $(RC_DIR)
+# Compile flags
+CXXFLAGS := -Wall -g $(INC)
 
-# This makes sure the compile step includes the directories
-CXXFLAGS = $(INC_DIRS:%=-I%)
+# Include directories for .h files
+VPATH = $(INC_DIRS)
 
 # Objects to build
 WRAP_OBJS = Arduino.o SPI.o
 RC_OBJS = MFRC522.o
 
 # Combine objects
-OBJS = main.o $(WRAP_OBJS:%.o=$(WRAP_DIR)/%.o) $(RC_OBJS:%.o=$(RC_DIR)/%.o)
+OBJS = main.o $(WRAP_OBJS) $(RC_OBJS)
 
-# Link
-main: $(OBJS)
-	$(CC) $(OBJS)  -o main
+# Compile and link main
+main : $(OBJS)
+	$(CC) -o main $(OBJS)
 
-# pull dependency info from .o files
--include $(OBJS:.o=.d)
+# Target dependencies
+main.o : Arduino.h SPI.h MFRC522.h
+Arduino.o : Arduino.h
+SPI.o : SPI.h
+MFRC522.o : MFRC522.h SPI.h Arduino.h
 
-# compile and generate dependency info
-$(BUILD_DIR)%.o: %.c
-	$(CC) -c $(CFLAGS) $*.cpp -o $*.o
-	$(CC) -MM $(CFLAGS) $*.cpp > $*.d
-
-#cleanup
-clean:
-	rm -f $(WRAP_DIR)/*.o $(WRAP_DIR)/*.d
-	rm -f $(RC_DIR)/*.o $(RC_DIR)/*.d
-	rm -f main *.o *.d
+# Cleanup
+.PHONY : clean
+clean :
+	rm -f main *.o
