@@ -1,37 +1,26 @@
 # MFRC522 makefile
 
 CC = g++
-CFLAGS = -Wall -g
 
-BUILD_DIR = ./build
+# Include directory
+INC_DIR = ../../..
 
-# Arduino Wrapper directory
-WRAP_DIR = ../../..
+# Compile flags
+CXXFLAGS = -Wall -g $(INC_DIR:%=-I%)
 
-INC_DIRS = $(WRAP_DIR)
-
-# This makes sure the compile step includes the directories
-CXXFLAGS = $(INC_DIRS:%=-I%)
-
-# Objects to build
-WRAP_OBJS = Arduino.o SPI.o
+# Include directory
+VPATH = $(INC_DIR)
 
 # Combine objects
-OBJS = main.o $(WRAP_OBJS:%.o=$(WRAP_DIR)/%.o)
+OBJS = main.o Arduino.o
 
-# Link
+# Compile and link
 main: $(OBJS)
-	$(CC) $(OBJS)  -o main
+	$(CC) -o main $(OBJS)
 
-# pull dependency info from .o files
--include $(OBJS:.o=.d)
-
-# compile and generate dependency info
-$(BUILD_DIR)%.o: %.c
-	$(CC) -c $(CFLAGS) $*.cpp -o $*.o
-	$(CC) -MM $(CFLAGS) $*.cpp > $*.d
+# Dependencies
+main.o : Arduino.h
 
 #cleanup
 clean:
-	rm -f $(WRAP_DIR)/*.o $(WRAP_DIR)/*.d
-	rm -f main *.o *.d
+	rm -f main *.o
