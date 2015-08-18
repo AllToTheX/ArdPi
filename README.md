@@ -7,6 +7,10 @@ To enbale SPI on Raspbian:
 
 Run `sudo raspi-config` and enable SPI in the advanced menu.
 
+Add these to your program:
+`hardwareSerial Serial;`
+`hardwareSPI SPI;`
+
 You're good to go.
 
 Remember to run your program susing sudo, the GPIO and SPI need root access.
