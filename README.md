@@ -15,3 +15,12 @@ To use, create a Serial and SPI instance:
 You're good to go.
 
 Remember to run your program susing sudo, the GPIO and SPI need root access.
+
+Pinout:
+- MISO	GPIO9
+- MOSI	GPIO10
+- CLK	GPIO11
+
+Examples:
+- CS	GPIO8
+- RESET	GPIO25
