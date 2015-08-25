@@ -27,6 +27,7 @@ public:
 	void setBitOrder(char);
 	void setDataMode(char);
 	unsigned char transfer(unsigned char);
+	void transferArray(unsigned char *data, unsigned char *rx, int length); // Not available on arduino
 	void end(void);
 	
 	// calls not implemented yet
