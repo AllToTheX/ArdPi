@@ -12,8 +12,8 @@
 #include "SPI.h"
 #include "MFRC522.h"
 
-#define RST_PIN         25           // Configurable, see typical pin layout above
-#define SS_PIN          8          // Configurable, see typical pin layout above
+#define RST_PIN         25
+#define SS_PIN          8
 
 
 

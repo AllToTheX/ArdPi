@@ -123,6 +123,26 @@ unsigned char hardwareSPI::transfer(unsigned char data)
 	return rx;
 }
 
+void hardwareSPI::transferArray(unsigned char *data, unsigned char *rx, int length)
+{
+	int ret;
+	
+	struct spi_ioc_transfer tr =
+	{
+		tr.tx_buf = (unsigned long)data,
+		tr.rx_buf = (unsigned long)rx,
+		tr.len = length,
+		tr.delay_usecs = 0,
+		tr.speed_hz = speed,
+		tr.bits_per_word = bits,
+	};
+	ret = ioctl(file, SPI_IOC_MESSAGE(1), &tr);
+	if (ret < 1) {
+		printf("can't send spi message\n");
+		abort();
+	}
+}
+
 // Closes spi file handle
 void hardwareSPI::end(void)
 {
