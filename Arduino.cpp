@@ -104,7 +104,7 @@ void pinMode(int pin, ePinMode direction)
 }
 
 // Overwrite, writes a value to the pin
-void digitalWrite(int pin, ePinLevel level)
+void _digitalWrite(int pin, int level)
 {
 	static const char s_values_str[] = "01";
  #define VALUE_MAX 30
@@ -124,6 +124,11 @@ void digitalWrite(int pin, ePinLevel level)
 	}
  
 	close(fd);
+}
+
+void digitalWrite(int pin, ePinLevel level)
+{
+	_digitalWrite(pin, (int)level);
 }
 
 // Overwrite, reads the pin value
