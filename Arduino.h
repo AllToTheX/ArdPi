@@ -38,7 +38,8 @@ typedef enum eType {
 }eType;
 
 void pinMode(int, ePinMode)__attribute__((weak));
-void digitalWrite(int, ePinLevel)__attribute__((weak));
+void digitalWrite(int pin, ePinLevel level)__attribute__((weak));
+void _digitalWrite(int pin, int level);
 char digitalRead(int)__attribute__((weak));
 void delay(word ms);
 
