@@ -13,7 +13,7 @@ Add these to your program:
 
 You're good to go.
 
-Remember to run your program susing sudo, the GPIO and SPI need root access.
+Remember to run your program using sudo, the GPIO and SPI need root access.
 
 Pinout:
 - MISO	GPIO9
@@ -23,6 +23,4 @@ Pinout:
 Examples:
 - CS	GPIO8
 - RESET	GPIO25
-=======
-Remember to run your program using sudo, the GPIO and SPI need root access.
->>>>>>> master
+
