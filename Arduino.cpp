@@ -8,7 +8,7 @@
 //
 // Serial class directs all Serial data to the terminal, Rpi UART is not supported.
 //
-// Any data originaly stored in program memory will be stored in
+// Any data originally stored in program memory will be stored in
 // data memory except for 'const'.
 //
 // You might need to replace <Arduino.h> in your libraries with "Arduino.h"
@@ -248,7 +248,7 @@ byte pgm_read_byte(const byte *c)
 	return *c;
 }
 
-// Overwrite of function thats reads arrays from program memory.
+// Overwrite of function that's reads arrays from program memory.
 const char * F(const char *c)
 {
 	return (const char *)c;
