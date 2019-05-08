@@ -18,7 +18,7 @@ void loop(void)
 {
 	Serial.print("This is a const string");
 	Serial.println();
-	Serial.println("This aswell, but with a newline added");
+	Serial.println("This as well, but with a newline added");
 	int value = 112;
 	Serial.print(value);
 	Serial.println();
